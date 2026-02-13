@@ -4,9 +4,6 @@ const cors = require("cors");
 const path = require("path");
 require("dotenv").config();
 
-/* =====================
-   ROUTE IMPORTS
-===================== */
 const authRoutes = require("./routes/auth");
 const userRoutes = require("./routes/user");
 const orderRoutes = require("./routes/order");
@@ -39,30 +36,19 @@ app.use("/api/cart", cartRoutes);
    DEFAULT ROUTE
 ===================== */
 app.get("/", (req, res) => {
-  res.sendFile(
-    path.join(__dirname, "../frontend/dashboard/dashboard.html")
-  );
+  res.sendFile(path.join(__dirname, "../frontend/dashboard/dashboard.html"));
 });
 
 /* =====================
-   CATCH ALL ROUTE
-===================== */
-app.get("*", (req, res) => {
-  res.sendFile(
-    path.join(__dirname, "../frontend/dashboard/dashboard.html")
-  );
-});
-
-/* =====================
-   DATABASE CONNECTION
+   DB CONNECTION
 ===================== */
 mongoose
   .connect(process.env.MONGO_URI)
   .then(() => console.log("MongoDB connected"))
-  .catch((err) => console.error("MongoDB connection error:", err));
+  .catch(err => console.error(err));
 
 /* =====================
-   SERVER START
+   SERVER
 ===================== */
 const PORT = process.env.PORT || 5000;
 
