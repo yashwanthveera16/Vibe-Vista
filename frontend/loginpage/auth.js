@@ -1,4 +1,6 @@
-// Toggle views
+// =====================
+// TOGGLE LOGIN / REGISTER
+// =====================
 function showRegister() {
   document.getElementById("loginBox").style.display = "none";
   document.getElementById("registerBox").style.display = "block";
@@ -22,7 +24,7 @@ document.getElementById("loginForm").addEventListener("submit", async (e) => {
   error.innerText = "";
 
   try {
-    const res = await fetch("http://localhost:5000/api/auth/login", {
+    const res = await fetch("/api/auth/login", {
       method: "POST",
       headers: {
         "Content-Type": "application/json"
@@ -37,15 +39,15 @@ document.getElementById("loginForm").addEventListener("submit", async (e) => {
       return;
     }
 
-    // 🔥 SAVE TOKEN + ROLE
+    // Save token and role
     localStorage.setItem("token", data.token);
     localStorage.setItem("role", data.role);
 
-    // 🔥 Redirect based on role
+    // Redirect based on role
     if (data.role === "admin") {
-      window.location.href = "../admin/admin.html";
+      window.location.href = "/admin/admin.html";
     } else {
-      window.location.href = "../dashboard/dashboard.html";
+      window.location.href = "/dashboard/dashboard.html";
     }
 
   } catch (err) {
@@ -73,7 +75,7 @@ document.getElementById("registerForm").addEventListener("submit", async (e) => 
   }
 
   try {
-    const res = await fetch("http://localhost:5000/api/auth/register", {
+    const res = await fetch("/api/auth/register", {
       method: "POST",
       headers: {
         "Content-Type": "application/json"
