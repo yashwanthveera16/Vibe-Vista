@@ -1,6 +1,7 @@
-// =====================
+// ==========================
 // TOGGLE LOGIN / REGISTER
-// =====================
+// ==========================
+
 function showRegister() {
   document.getElementById("loginBox").style.display = "none";
   document.getElementById("registerBox").style.display = "block";
@@ -11,9 +12,11 @@ function showLogin() {
   document.getElementById("loginBox").style.display = "block";
 }
 
-/* =====================
-   LOGIN
-===================== */
+
+// ==========================
+// LOGIN
+// ==========================
+
 document.getElementById("loginForm").addEventListener("submit", async (e) => {
   e.preventDefault();
 
@@ -39,7 +42,7 @@ document.getElementById("loginForm").addEventListener("submit", async (e) => {
       return;
     }
 
-    // Save token and role
+    // Save token & role
     localStorage.setItem("token", data.token);
     localStorage.setItem("role", data.role);
 
@@ -51,14 +54,16 @@ document.getElementById("loginForm").addEventListener("submit", async (e) => {
     }
 
   } catch (err) {
-    console.error(err);
+    console.error("Login error:", err);
     error.innerText = "Cannot connect to server";
   }
 });
 
-/* =====================
-   REGISTER
-===================== */
+
+// ==========================
+// REGISTER
+// ==========================
+
 document.getElementById("registerForm").addEventListener("submit", async (e) => {
   e.preventDefault();
 
@@ -94,7 +99,7 @@ document.getElementById("registerForm").addEventListener("submit", async (e) => 
     showLogin();
 
   } catch (err) {
-    console.error(err);
+    console.error("Register error:", err);
     error.innerText = "Cannot connect to server";
   }
 });
