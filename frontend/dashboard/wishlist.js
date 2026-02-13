@@ -29,7 +29,7 @@ async function loadWishlist() {
       return;
     }
 
-    const res = await fetch("http://localhost:5000/api/products");
+    const res = await fetch("https://vibe-vista.onrender.com/api/products");
     const products = await res.json();
 
     const filtered = products.filter(p =>

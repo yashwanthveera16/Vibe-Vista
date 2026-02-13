@@ -51,7 +51,7 @@ function showToast(msg) {
 async function loadProduct() {
   try {
     const res = await fetch(
-      `http://localhost:5000/api/products/${productId}`
+      `https://vibe-vista.onrender.com/api/products/${productId}`
     );
 
     if (!res.ok) {

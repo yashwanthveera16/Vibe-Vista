@@ -141,7 +141,7 @@ function createProductCard(p) {
 ===================== */
 async function loadProducts() {
   try {
-    const res = await fetch("http://localhost:5000/api/products");
+    const res = await fetch("https://vibe-vista.onrender.com/api/products");
     PRODUCTS = await res.json();
     renderFeatured();
   } catch (err) {

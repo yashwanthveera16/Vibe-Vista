@@ -1,4 +1,4 @@
-const API = "http://localhost:5000/api/products";
+const API = "https://vibe-vista.onrender.com/api/products";
 const token = localStorage.getItem("token");
 
 if (!token) {

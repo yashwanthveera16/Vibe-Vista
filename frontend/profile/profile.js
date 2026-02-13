@@ -7,7 +7,7 @@ if (!token) {
 /* =====================
    FETCH PROFILE
 ===================== */
-fetch("http://localhost:5000/api/user/me", {
+fetch("https://vibe-vista.onrender.com/api/user/me", {
   method: "GET",
   headers: {
     "Authorization": `Bearer ${token}`
