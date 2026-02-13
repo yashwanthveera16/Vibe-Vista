@@ -9,6 +9,7 @@ function saveCart(cart) {
 const cartItemsEl = document.getElementById("cartItems");
 const itemCountEl = document.getElementById("itemCount");
 const totalPriceEl = document.getElementById("totalPrice");
+const checkoutBtn = document.getElementById("checkoutBtn");
 
 function renderCart() {
   const cart = getCart();
@@ -76,6 +77,57 @@ function renderCart() {
 
   itemCountEl.innerText = totalItems;
   totalPriceEl.innerText = totalPrice;
+}
+
+/* -----------------------------
+   CHECKOUT BUTTON LOGIC
+------------------------------*/
+
+if (checkoutBtn) {
+  checkoutBtn.addEventListener("click", async () => {
+    const cart = getCart();
+
+    if (!cart.length) {
+      alert("Your cart is empty!");
+      return;
+    }
+
+    const token = localStorage.getItem("token");
+
+    if (!token) {
+      alert("Please login first");
+      window.location.href = "login.html";
+      return;
+    }
+
+    try {
+      const res = await fetch("https://vibe-vista.onrender.com/api/orders", {
+        method: "POST",
+        headers: {
+          "Content-Type": "application/json",
+          Authorization: "Bearer " + token,
+        },
+        body: JSON.stringify({ items: cart }),
+      });
+
+      const data = await res.json();
+
+      if (!res.ok) {
+        alert(data.message || "Order failed");
+        return;
+      }
+
+      alert("Order placed successfully!");
+
+      localStorage.removeItem("cart");
+      renderCart();
+
+      window.location.href = "orders.html";
+    } catch (err) {
+      console.error(err);
+      alert("Something went wrong");
+    }
+  });
 }
 
 renderCart();

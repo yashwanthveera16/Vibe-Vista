@@ -1,19 +1,16 @@
-const express = require("express");
-const Product = require("../models/Product");
+require("dotenv").config();
+const mongoose = require("mongoose");
+const Product = require("./models/Product");
 
-const router = express.Router();
+mongoose.connect(process.env.MONGO_URI)
+  .then(async () => {
+    console.log("MongoDB connected");
 
-/*
-  ONE-TIME SEED ROUTE
-  This will insert ALL products into MongoDB
-*/
-router.post("/", async (req, res) => {
-  try {
-    // Optional: clear old products
     await Product.deleteMany();
 
     await Product.insertMany([
-      // MEN JACKETS
+
+      // ================= MEN JACKETS =================
       { name: "Men Jacket Black", category: "men", type: "jacket", price: 2999, sizes: ["S","M","L"], image: "images/men/jackets/jacket_1.jpg" },
       { name: "Men Jacket Blue", category: "men", type: "jacket", price: 3499, sizes: ["M","L","XL"], image: "images/men/jackets/jacket_2.jpg" },
       { name: "Men Jacket Grey", category: "men", type: "jacket", price: 2799, sizes: ["S","M"], image: "images/men/jackets/jacket_3.jpg" },
@@ -23,7 +20,7 @@ router.post("/", async (req, res) => {
       { name: "Men Jacket Street Fit", category: "men", type: "jacket", price: 3299, sizes: ["S","M","L"], image: "images/men/jackets/jacket_7.jpg" },
       { name: "Men Jacket Urban", category: "men", type: "jacket", price: 3699, sizes: ["M","L"], image: "images/men/jackets/jacket_8.jpg" },
 
-      // MEN JEANS
+      // ================= MEN JEANS =================
       { name: "Men Jeans Classic Blue", category: "men", type: "jeans", price: 1999, sizes: ["S","M","L"], image: "images/men/jeans/jeans_1.jpg" },
       { name: "Men Jeans Slim Fit", category: "men", type: "jeans", price: 2199, sizes: ["M","L"], image: "images/men/jeans/jeans_2.jpg" },
       { name: "Men Jeans Dark Wash", category: "men", type: "jeans", price: 2399, sizes: ["S","M","L"], image: "images/men/jeans/jeans_3.jpg" },
@@ -34,7 +31,7 @@ router.post("/", async (req, res) => {
       { name: "Men Jeans Comfort Fit", category: "men", type: "jeans", price: 1899, sizes: ["S","M"], image: "images/men/jeans/jeans_8.jpg" },
       { name: "Men Jeans Regular", category: "men", type: "jeans", price: 1799, sizes: ["S","M","L"], image: "images/men/jeans/jeans_9.jpg" },
 
-      // MEN T-SHIRTS
+      // ================= MEN TSHIRTS =================
       { name: "Men T-Shirt White", category: "men", type: "tshirt", price: 999, sizes: ["S","M","L"], image: "images/men/tshirts/tshirt_1.jpg" },
       { name: "Men T-Shirt Black", category: "men", type: "tshirt", price: 1099, sizes: ["M","L"], image: "images/men/tshirts/tshirt_2.jpg" },
       { name: "Men T-Shirt Printed", category: "men", type: "tshirt", price: 1199, sizes: ["S","M"], image: "images/men/tshirts/tshirt_3.jpg" },
@@ -43,7 +40,7 @@ router.post("/", async (req, res) => {
       { name: "Men T-Shirt Streetwear", category: "men", type: "tshirt", price: 1499, sizes: ["M","L"], image: "images/men/tshirts/tshirt_6.jpg" },
       { name: "Men T-Shirt Graphic", category: "men", type: "tshirt", price: 1299, sizes: ["S","M"], image: "images/men/tshirts/tshirt_7.jpg" },
 
-      // WOMEN BAGS
+      // ================= WOMEN BAGS =================
       { name: "Women Hand Bag Classic", category: "women", type: "bag", price: 2599, sizes: ["Free"], image: "images/women/bags/bag_1.jpg" },
       { name: "Women Bag Casual", category: "women", type: "bag", price: 2299, sizes: ["Free"], image: "images/women/bags/bag_2.jpg" },
       { name: "Women Bag Premium", category: "women", type: "bag", price: 3199, sizes: ["Free"], image: "images/women/bags/bag_3.jpg" },
@@ -51,24 +48,24 @@ router.post("/", async (req, res) => {
       { name: "Women Bag Trendy", category: "women", type: "bag", price: 3499, sizes: ["Free"], image: "images/women/bags/bag_5.jpg" },
       { name: "Women Bag Fashion", category: "women", type: "bag", price: 2799, sizes: ["Free"], image: "images/women/bags/bag_6.jpg" },
 
-      // WOMEN SANDALS
+      // ================= WOMEN SANDALS =================
       { name: "Women Sandals Comfort", category: "women", type: "sandals", price: 1799, sizes: ["S","M","L"], image: "images/women/sandals/sandles_1.jpg" },
       { name: "Women Sandals Elegant", category: "women", type: "sandals", price: 1999, sizes: ["M","L"], image: "images/women/sandals/sandles_2.jpg" },
 
-      // WOMEN SHIRTS
+      // ================= WOMEN SHIRTS =================
       { name: "Women Shirt Casual", category: "women", type: "shirt", price: 1599, sizes: ["S","M"], image: "images/women/shirts/shirts_1.jpg" },
       { name: "Women Shirt Office", category: "women", type: "shirt", price: 1799, sizes: ["M","L"], image: "images/women/shirts/shirts_2.jpg" },
       { name: "Women Shirt Trendy", category: "women", type: "shirt", price: 1899, sizes: ["S","M"], image: "images/women/shirts/shirts_3.jpg" },
       { name: "Women Shirt Cotton", category: "women", type: "shirt", price: 1499, sizes: ["S","M","L"], image: "images/women/shirts/shirts_4.jpg" },
       { name: "Women Shirt Elegant", category: "women", type: "shirt", price: 1999, sizes: ["M","L"], image: "images/women/shirts/shirts_5.jpg" },
       { name: "Women Shirt Daily Wear", category: "women", type: "shirt", price: 1399, sizes: ["S","M"], image: "images/women/shirts/shirts_6.jpg" }
+
     ]);
 
-    res.json({ message: "ALL products seeded successfully" });
-  } catch (err) {
+    console.log("ALL products seeded successfully");
+    process.exit();
+  })
+  .catch(err => {
     console.error(err);
-    res.status(500).json({ message: "Seeding failed" });
-  }
-});
-
-module.exports = router;
+    process.exit(1);
+  });
