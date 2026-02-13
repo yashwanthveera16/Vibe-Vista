@@ -1,6 +1,7 @@
 const express = require("express");
 const mongoose = require("mongoose");
 const cors = require("cors");
+const path = require("path");
 require("dotenv").config();
 
 const authRoutes = require("./routes/auth");
@@ -18,17 +19,27 @@ app.use(cors());
 app.use(express.json());
 
 /* =====================
-   ROUTES
+   STATIC FRONTEND
 ===================== */
-app.get("/", (req, res) => {
-  res.send("Vibe Vista API running");
-});
+app.use(express.static(path.join(__dirname, "../frontend")));
 
+/* =====================
+   API ROUTES
+===================== */
 app.use("/api/auth", authRoutes);
 app.use("/api/user", userRoutes);
 app.use("/api/orders", orderRoutes);
 app.use("/api/products", productRoutes);
 app.use("/api/cart", cartRoutes);
+
+/* =====================
+   DEFAULT ROUTE (Frontend)
+===================== */
+app.get("*", (req, res) => {
+  res.sendFile(
+    path.join(__dirname, "../frontend/dashboard/dashboard.html")
+  );
+});
 
 /* =====================
    DB CONNECTION
