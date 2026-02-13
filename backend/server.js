@@ -19,11 +19,6 @@ app.use(cors());
 app.use(express.json());
 
 /* =====================
-   SERVE FRONTEND
-===================== */
-app.use(express.static(path.join(__dirname, "../frontend")));
-
-/* =====================
    API ROUTES
 ===================== */
 app.use("/api/auth", authRoutes);
@@ -33,8 +28,13 @@ app.use("/api/products", productRoutes);
 app.use("/api/cart", cartRoutes);
 
 /* =====================
-   DEFAULT ROUTE
+   SERVE FRONTEND
 ===================== */
+
+// Serve static files from frontend folder
+app.use(express.static(path.join(__dirname, "../frontend")));
+
+// Default route to load dashboard
 app.get("/", (req, res) => {
   res.sendFile(path.join(__dirname, "../frontend/dashboard/dashboard.html"));
 });
