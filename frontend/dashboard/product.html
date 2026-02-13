@@ -1,0 +1,57 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <title>Product Details | Vibe Vista</title>
+  <link rel="stylesheet" href="product.css">
+</head>
+<body>
+
+<!-- NAVBAR -->
+<header class="navbar">
+  <h2 id="productName">Product</h2>
+
+  <div class="nav-icons">
+    <a href="cart.html">
+      🛒 <span id="cart-count">0</span>
+    </a>
+  </div>
+</header>
+
+<!-- PRODUCT DETAILS -->
+<section class="product-detail">
+
+  <!-- IMAGE -->
+  <div class="image-section">
+    <img id="productImage" src="" alt="Product Image">
+  </div>
+
+  <!-- INFO -->
+  <div class="info-section">
+    <h1 id="productTitle"></h1>
+
+    <p class="price" id="productPrice"></p>
+
+    <!-- SIZE SELECTION -->
+    <div class="sizes">
+      <h4>Select Size</h4>
+      <div id="sizeOptions"></div>
+    </div>
+
+    <!-- ACTION BUTTONS -->
+    <div class="actions">
+      <button id="addToCart">Add to Cart</button>
+      <button id="addToWishlist" class="wishlist-btn">♥</button>
+    </div>
+  </div>
+
+</section>
+
+<!-- TOAST -->
+<div id="toast" class="toast"></div>
+
+<!-- SCRIPTS -->
+<script src="product.js"></script>
+
+</body>
+</html>

@@ -1,0 +1,100 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <title>Vibe Vista</title>
+  <link rel="stylesheet" href="auth.css" />
+</head>
+<body>
+
+<div class="auth-layout">
+
+  <!-- LEFT PANEL -->
+  <div class="auth-left">
+    <div class="left-content">
+      <h1>Vibe Vista</h1>
+      <p>
+        A modern e-commerce platform focused on
+        product discovery, smart filtering, and
+        easy cart management for a smooth shopping experience.
+      </p>
+
+      <ul>
+        <li>Secure user accounts</li>
+        <li>Browse and filter products</li>
+        <li>Add to cart and view cart items</li>
+      </ul>
+    </div>
+  </div>
+
+  <!-- RIGHT PANEL -->
+  <div class="auth-right">
+    <div class="auth-card">
+
+      <!-- LOGIN -->
+      <div id="loginBox">
+        <h2>Welcome Back</h2>
+        <p class="subtext">Sign in to explore products</p>
+
+        <form id="loginForm">
+          <div class="input-group">
+            <input type="email" id="loginEmail" required />
+            <label>Email</label>
+          </div>
+
+          <div class="input-group">
+            <input type="password" id="loginPassword" required />
+            <label>Password</label>
+          </div>
+
+          <button class="primary-btn">Sign In</button>
+
+          <p class="switch-text">
+            New to Vibe Vista?
+            <span onclick="showRegister()">Create account</span>
+          </p>
+
+          <p id="loginError"></p>
+        </form>
+      </div>
+
+      <!-- REGISTER -->
+      <div id="registerBox" style="display:none;">
+        <h2>Create Account</h2>
+        <p class="subtext">Join Vibe Vista to start shopping</p>
+
+        <form id="registerForm">
+          <div class="input-group">
+            <input type="email" id="regEmail" required />
+            <label>Email</label>
+          </div>
+
+          <div class="input-group">
+            <input type="password" id="regPassword" required />
+            <label>Password</label>
+          </div>
+
+          <div class="input-group">
+            <input type="password" id="regConfirm" required />
+            <label>Confirm Password</label>
+          </div>
+
+          <button class="primary-btn">Create Account</button>
+
+          <p class="switch-text">
+            Already have an account?
+            <span onclick="showLogin()">Sign in</span>
+          </p>
+
+          <p id="registerError"></p>
+        </form>
+      </div>
+
+    </div>
+  </div>
+
+</div>
+
+<script src="auth.js"></script>
+</body>
+</html>

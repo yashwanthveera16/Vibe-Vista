@@ -1,0 +1,41 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <title>Admin Panel | Vibe Vista</title>
+  <link rel="stylesheet" href="admin.css" />
+</head>
+<body>
+
+  <div class="container">
+
+    <div class="top-bar">
+      <h2>Admin Panel</h2>
+      <div>
+        <button id="backBtn">Back to Shop</button>
+        <button id="logoutBtn" class="logout">Logout</button>
+      </div>
+    </div>
+
+    <!-- ADD / EDIT FORM -->
+    <form id="productForm">
+      <input type="text" id="name" placeholder="Product Name" required />
+      <input type="text" id="category" placeholder="Category (men/women/kids)" required />
+      <input type="text" id="type" placeholder="Type (shirt/pants/etc)" required />
+      <input type="number" id="price" placeholder="Price" required />
+      <input type="text" id="sizes" placeholder="Sizes (S,M,L)" required />
+      <input type="text" id="image" placeholder="Image URL" required />
+      <button type="submit">Save Product</button>
+    </form>
+
+    <hr />
+
+    <!-- PRODUCT LIST -->
+    <h3>All Products</h3>
+    <div id="productList"></div>
+
+  </div>
+
+  <script src="admin.js"></script>
+</body>
+</html>

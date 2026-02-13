@@ -1,0 +1,150 @@
+body {
+  font-family: "Segoe UI", sans-serif;
+  background: #f4f6fb;
+}
+
+/* NAVBAR */
+.navbar {
+  background: linear-gradient(135deg, #2575fc, #6a11cb);
+  color: white;
+  padding: 18px 30px;
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+}
+
+.back {
+  color: white;
+  text-decoration: none;
+}
+
+/* CART LAYOUT */
+.cart-container {
+  display: flex;
+  gap: 30px;
+  padding: 40px;
+}
+
+/* CART ITEMS */
+.cart-items {
+  flex: 2;
+}
+
+.cart-item {
+  display: flex;
+  gap: 20px;
+  background: white;
+  padding: 18px;
+  border-radius: 14px;
+  margin-bottom: 20px;
+}
+
+.cart-item img {
+  width: 120px;
+  height: 120px;
+  object-fit: contain;
+}
+
+.cart-info h4 {
+  margin-bottom: 6px;
+}
+
+.qty-control {
+  display: flex;
+  gap: 10px;
+  align-items: center;
+}
+
+.qty-control button {
+  width: 32px;
+  height: 32px;
+  border-radius: 50%;
+  border: none;
+  background: #2575fc;
+  color: white;
+  cursor: pointer;
+}
+
+.remove {
+  margin-top: 10px;
+  background: none;
+  border: none;
+  color: #e63946;
+  cursor: pointer;
+}
+
+/* SUMMARY */
+.cart-summary {
+  flex: 1;
+  background: white;
+  padding: 25px;
+  border-radius: 14px;
+  height: fit-content;
+}
+
+#checkoutBtn {
+  width: 100%;
+  margin-top: 20px;
+  padding: 12px;
+  background: linear-gradient(135deg, #2575fc, #6a11cb);
+  color: white;
+  border: none;
+  border-radius: 30px;
+  cursor: pointer;
+}
+
+/* MODAL */
+.modal {
+  position: fixed;
+  inset: 0;
+  background: rgba(0,0,0,0.45);
+  display: none;
+  justify-content: center;
+  align-items: center;
+}
+
+.modal.show {
+  display: flex;
+}
+
+.modal-content {
+  background: white;
+  padding: 26px;
+  width: 320px;
+  border-radius: 18px;
+  animation: pop 0.25s ease;
+}
+
+.modal-content h3 {
+  text-align: center;
+  margin-bottom: 16px;
+}
+
+.modal-content input {
+  width: 100%;
+  padding: 10px;
+  margin-bottom: 10px;
+  border-radius: 10px;
+  border: 1px solid #ccc;
+}
+
+.modal-content button {
+  width: 100%;
+  padding: 12px;
+  border-radius: 22px;
+  border: none;
+  background: linear-gradient(135deg, #2575fc, #6a11cb);
+  color: white;
+  cursor: pointer;
+}
+
+.close-btn {
+  background: none;
+  color: #e63946;
+  margin-top: 10px;
+}
+
+@keyframes pop {
+  from { transform: scale(0.9); opacity: 0; }
+  to { transform: scale(1); opacity: 1; }
+}

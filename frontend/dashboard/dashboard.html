@@ -1,0 +1,97 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <title>Vibe Vista</title>
+  <link rel="stylesheet" href="dashboard.css">
+</head>
+<body>
+
+<header class="navbar">
+  <div class="logo">Vibe Vista</div>
+
+  <div class="nav-icons">
+    <a href="../profile/profile.html">👤</a>
+    <a href="wishlist.html">❤️ <span id="wishlist-count">0</span></a>
+    <a href="cart.html">🛒 <span id="cart-count">0</span></a>
+  </div>
+</header>
+
+<!-- FILTER BAR -->
+<section class="filter-bar">
+  <button id="filterToggle">Filters</button>
+  <input type="text" id="searchInput" placeholder="Search products">
+</section>
+
+<!-- HERO STRIP (NEW) -->
+<section class="hero-strip">
+  <div class="hero-content">
+    <h1 id="heroText">Upgrade your style. Effortlessly.</h1>
+    <p>Curated fashion • Smart filters • Seamless shopping</p>
+  </div>
+</section>
+
+<div class="shop-layout">
+
+  <!-- FILTER PANEL -->
+  <aside class="filter-panel" id="filterPanel">
+    <h3>Category</h3>
+    <select id="categoryFilter">
+      <option value="all">All</option>
+      <option value="men">Men</option>
+      <option value="women">Women</option>
+      <option value="kids">Kids</option>
+    </select>
+
+    <h3>Size</h3>
+    <select id="sizeFilter">
+      <option value="all">All</option>
+      <option value="S">S</option>
+      <option value="M">M</option>
+      <option value="L">L</option>
+      <option value="XL">XL</option>
+    </select>
+
+    <h3>Price</h3>
+    <select id="priceRange">
+      <option value="all">All</option>
+      <option value="below-2000">Below ₹2000</option>
+      <option value="2000-5000">₹2000 - ₹5000</option>
+      <option value="above-5000">Above ₹5000</option>
+    </select>
+
+    <h3>Sort</h3>
+    <select id="priceSort">
+      <option value="default">Default</option>
+      <option value="low-high">Low to High</option>
+      <option value="high-low">High to Low</option>
+    </select>
+  </aside>
+
+  <!-- PRODUCTS -->
+  <section class="products">
+
+    <h2 class="section-title">Featured Products</h2>
+    <div id="featuredGrid" class="product-grid"></div>
+
+    <!-- DISCOVER -->
+    <div class="discover-box">
+      <h3>Discover New Styles</h3>
+      <p>Fresh arrivals and trending outfits curated for you.</p>
+      <button id="exploreBtn">Explore More</button>
+    </div>
+
+    <!-- ALL PRODUCTS -->
+    <div id="exploreSection" class="hidden">
+      <h2 class="section-title">All Products</h2>
+      <div id="productGrid" class="product-grid"></div>
+    </div>
+
+  </section>
+</div>
+
+<div id="toast" class="toast"></div>
+
+<script src="dashboard.js"></script>
+</body>
+</html>
