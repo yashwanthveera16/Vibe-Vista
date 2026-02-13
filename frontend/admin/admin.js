@@ -1,3 +1,4 @@
+const API = "http://localhost:5000/api/products";
 const token = localStorage.getItem("token");
 
 if (!token) {
@@ -5,113 +6,147 @@ if (!token) {
   window.location.href = "../loginpage/login.html";
 }
 
-/* =====================
-   ADD PRODUCT
-===================== */
-document.getElementById("productForm").onsubmit = async (e) => {
-  e.preventDefault();
+const productForm = document.getElementById("productForm");
+const productList = document.getElementById("productList");
+const logoutBtn = document.getElementById("logoutBtn");
+const backBtn = document.getElementById("backBtn");
 
-  const product = {
-    name: name.value,
-    category: category.value,
-    type: type.value,
-    price: Number(price.value),
-    image: image.value,
-    sizes: sizes.value.split(",").map(s => s.trim())
-  };
+let editingId = null;
 
-  const res = await fetch("http://localhost:5000/api/products", {
-    method: "POST",
-    headers: {
-      "Content-Type": "application/json",
-      Authorization: `Bearer ${token}`
-    },
-    body: JSON.stringify(product)
-  });
-
-  const data = await res.json();
-  alert(data.message);
-
-  loadProducts();
-};
-
-/* =====================
+/* ======================
    LOAD PRODUCTS
-===================== */
+====================== */
 async function loadProducts() {
-  const res = await fetch("http://localhost:5000/api/products");
-  const products = await res.json();
+  try {
+    const res = await fetch(API);
+    const products = await res.json();
 
-  const box = document.getElementById("adminProducts");
-  box.innerHTML = "";
+    renderProducts(products);
+  } catch (err) {
+    console.error(err);
+  }
+}
 
-  products.forEach(p => {
+/* ======================
+   RENDER PRODUCTS
+====================== */
+function renderProducts(products) {
+  productList.innerHTML = "";
+
+  products.forEach(product => {
     const div = document.createElement("div");
-    div.className = "product-row";
+    div.className = "product-card";
 
     div.innerHTML = `
-      <span>${p.name} - ₹${p.price}</span>
-      <div>
-        <button onclick="editProduct('${p._id}')">Edit</button>
-        <button class="delete-btn" onclick="deleteProduct('${p._id}')">Delete</button>
+      <img src="${product.image}" />
+      <div class="product-info">
+        <h4>${product.name}</h4>
+        <p>₹${product.price}</p>
+        <p>${product.category} | ${product.type}</p>
+        <p>Sizes: ${product.sizes.join(", ")}</p>
+      </div>
+      <div class="actions">
+        <button onclick="editProduct('${product._id}')">Edit</button>
+        <button onclick="deleteProduct('${product._id}')">Delete</button>
       </div>
     `;
 
-    box.appendChild(div);
+    productList.appendChild(div);
   });
 }
 
-/* =====================
-   EDIT PRODUCT
-===================== */
-async function editProduct(id) {
+/* ======================
+   ADD / UPDATE PRODUCT
+====================== */
+productForm.addEventListener("submit", async (e) => {
+  e.preventDefault();
 
-  const name = prompt("New name:");
-  const price = prompt("New price:");
-  const image = prompt("New image URL:");
-  const sizes = prompt("Sizes comma separated:");
-
-  if (!name || !price) return;
-
-  const updated = {
-    name,
-    price: Number(price),
-    image,
-    sizes: sizes.split(",").map(s => s.trim())
+  const productData = {
+    name: document.getElementById("name").value,
+    category: document.getElementById("category").value,
+    type: document.getElementById("type").value,
+    price: document.getElementById("price").value,
+    sizes: document.getElementById("sizes").value.split(","),
+    image: document.getElementById("image").value
   };
 
-  const res = await fetch(`http://localhost:5000/api/products/${id}`, {
-    method: "PUT",
-    headers: {
-      "Content-Type": "application/json",
-      Authorization: `Bearer ${token}`
-    },
-    body: JSON.stringify(updated)
-  });
+  try {
+    if (editingId) {
+      await fetch(`${API}/${editingId}`, {
+        method: "PUT",
+        headers: {
+          "Content-Type": "application/json",
+          Authorization: `Bearer ${token}`
+        },
+        body: JSON.stringify(productData)
+      });
 
-  const data = await res.json();
-  alert(data.message);
+      editingId = null;
+    } else {
+      await fetch(API, {
+        method: "POST",
+        headers: {
+          "Content-Type": "application/json",
+          Authorization: `Bearer ${token}`
+        },
+        body: JSON.stringify(productData)
+      });
+    }
 
-  loadProducts();
-}
+    productForm.reset();
+    loadProducts();
 
-/* =====================
+  } catch (err) {
+    console.error(err);
+  }
+});
+
+/* ======================
+   EDIT PRODUCT
+====================== */
+window.editProduct = async function (id) {
+  const res = await fetch(`${API}/${id}`);
+  const product = await res.json();
+
+  document.getElementById("name").value = product.name;
+  document.getElementById("category").value = product.category;
+  document.getElementById("type").value = product.type;
+  document.getElementById("price").value = product.price;
+  document.getElementById("sizes").value = product.sizes.join(",");
+  document.getElementById("image").value = product.image;
+
+  editingId = id;
+};
+
+/* ======================
    DELETE PRODUCT
-===================== */
-async function deleteProduct(id) {
-  if (!confirm("Delete product?")) return;
+====================== */
+window.deleteProduct = async function (id) {
+  if (!confirm("Delete this product?")) return;
 
-  const res = await fetch(`http://localhost:5000/api/products/${id}`, {
+  await fetch(`${API}/${id}`, {
     method: "DELETE",
     headers: {
       Authorization: `Bearer ${token}`
     }
   });
 
-  const data = await res.json();
-  alert(data.message);
-
   loadProducts();
-}
+};
+
+/* ======================
+   LOGOUT
+====================== */
+logoutBtn.addEventListener("click", () => {
+  localStorage.removeItem("token");
+  window.location.href = "../loginpage/login.html";
+});
+
+/* ======================
+   BACK
+====================== */
+backBtn.addEventListener("click", () => {
+  window.location.href = "../dashboard/dashboard.html";
+});
 
 loadProducts();
