@@ -6,25 +6,34 @@ const User = require("../models/User");
 const router = express.Router();
 
 /* =====================
+   TEST ROUTE (IMPORTANT)
+===================== */
+router.get("/ping", (req, res) => {
+  res.send("Auth route working");
+});
+
+/* =====================
    REGISTER
 ===================== */
 router.post("/register", async (req, res) => {
   try {
     const { email, password } = req.body;
 
-    if (!email || !password)
+    if (!email || !password) {
       return res.status(400).json({ message: "All fields required" });
+    }
 
     const existing = await User.findOne({ email });
-    if (existing)
+    if (existing) {
       return res.status(400).json({ message: "User already exists" });
+    }
 
     const hashed = await bcrypt.hash(password, 10);
 
     const newUser = new User({
       email,
       password: hashed,
-      role: "user" // default role
+      role: "user"
     });
 
     await newUser.save();
@@ -44,16 +53,23 @@ router.post("/login", async (req, res) => {
   try {
     const { email, password } = req.body;
 
-    if (!email || !password)
+    if (!email || !password) {
       return res.status(400).json({ message: "All fields required" });
+    }
 
     const user = await User.findOne({ email });
-    if (!user)
+    if (!user) {
       return res.status(400).json({ message: "Invalid credentials" });
+    }
 
     const match = await bcrypt.compare(password, user.password);
-    if (!match)
+    if (!match) {
       return res.status(400).json({ message: "Invalid credentials" });
+    }
+
+    if (!process.env.JWT_SECRET) {
+      return res.status(500).json({ message: "JWT_SECRET not set" });
+    }
 
     const token = jwt.sign(
       { id: user._id },
@@ -61,7 +77,6 @@ router.post("/login", async (req, res) => {
       { expiresIn: "1d" }
     );
 
-    // 🔥 Send role to frontend
     res.json({
       token,
       role: user.role
