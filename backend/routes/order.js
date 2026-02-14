@@ -1,39 +1,39 @@
 const express = require("express");
 const Order = require("../models/Order");
-const Cart = require("../models/Cart");
-const authMiddleware = require("/backend/middleware/authMiddleware");
+const authMiddleware = require("../middleware/temp");
 
 const router = express.Router();
 
-/* =====================
-   CREATE ORDER FROM CART
-===================== */
+/*
+=================================
+CREATE ORDER FROM FRONTEND CART
+=================================
+*/
+
 router.post("/", authMiddleware, async (req, res) => {
   try {
-    const { shipping } = req.body;
+    const { items, shipping } = req.body;
 
-    const cart = await Cart.findOne({ user: req.userId });
-
-    if (!cart || cart.items.length === 0) {
+    // Validate cart items
+    if (!items || items.length === 0) {
       return res.status(400).json({ message: "Cart is empty" });
     }
 
-    const totalAmount = cart.items.reduce(
+    // Calculate total
+    const totalAmount = items.reduce(
       (sum, item) => sum + item.price * item.qty,
       0
     );
 
+    // Create order
     const order = new Order({
-      user: req.userId,
-      items: cart.items,
+      user: req.user.id, // IMPORTANT: from decoded token
+      items: items,
       totalAmount,
-      shipping
+      shipping,
     });
 
     await order.save();
-
-    cart.items = [];
-    await cart.save();
 
     res.json({ message: "Order placed successfully" });
 
@@ -43,11 +43,23 @@ router.post("/", authMiddleware, async (req, res) => {
   }
 });
 
-router.get("/my", authMiddleware, async (req, res) => {
-  const orders = await Order.find({ user: req.userId })
-    .sort({ createdAt: -1 });
+/*
+=======================
+GET MY ORDERS
+=======================
+*/
 
-  res.json(orders);
+router.get("/my", authMiddleware, async (req, res) => {
+  try {
+    const orders = await Order.find({ user: req.user.id })
+      .sort({ createdAt: -1 });
+
+    res.json(orders);
+
+  } catch (err) {
+    console.error(err);
+    res.status(500).json({ message: "Server error" });
+  }
 });
 
 module.exports = router;
