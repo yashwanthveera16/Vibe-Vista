@@ -1,65 +1,19 @@
-const express = require("express");
-const Order = require("../models/Order");
-const authMiddleware = require("../middleware/authMiddleware");
+const jwt = require("jsonwebtoken");
 
-const router = express.Router();
+module.exports = function authMiddleware(req, res, next) {
+  const authHeader = req.headers.authorization;
 
-/*
-=================================
-CREATE ORDER FROM FRONTEND CART
-=================================
-*/
-
-router.post("/", authMiddleware, async (req, res) => {
-  try {
-    const { items, shipping } = req.body;
-
-    // Validate cart items
-    if (!items || items.length === 0) {
-      return res.status(400).json({ message: "Cart is empty" });
-    }
-
-    // Calculate total
-    const totalAmount = items.reduce(
-      (sum, item) => sum + item.price * item.qty,
-      0
-    );
-
-    // Create order
-    const order = new Order({
-      user: req.user.id, // IMPORTANT: from decoded token
-      items: items,
-      totalAmount,
-      shipping,
-    });
-
-    await order.save();
-
-    res.json({ message: "Order placed successfully" });
-
-  } catch (err) {
-    console.error(err);
-    res.status(500).json({ message: "Server error" });
+  if (!authHeader) {
+    return res.status(401).json({ message: "No token" });
   }
-});
 
-/*
-=======================
-GET MY ORDERS
-=======================
-*/
+  const token = authHeader.split(" ")[1];
 
-router.get("/my", authMiddleware, async (req, res) => {
   try {
-    const orders = await Order.find({ user: req.user.id })
-      .sort({ createdAt: -1 });
-
-    res.json(orders);
-
+    const decoded = jwt.verify(token, process.env.JWT_SECRET);
+    req.user = decoded;
+    next();
   } catch (err) {
-    console.error(err);
-    res.status(500).json({ message: "Server error" });
+    return res.status(401).json({ message: "Invalid token" });
   }
-});
-
-module.exports = router;
+};
