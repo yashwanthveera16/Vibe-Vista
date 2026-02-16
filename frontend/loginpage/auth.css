@@ -243,3 +243,61 @@ body {
 .switch-text span:hover {
   text-decoration: underline;
 }
+/*mobilee*/
+/* ======================
+   MOBILE RESPONSIVE
+====================== */
+@media (max-width: 768px) {
+
+  body {
+    padding: 20px;
+  }
+
+  .auth-container {
+    width: 100%;
+    max-width: 420px;
+    margin: auto;
+  }
+
+  .auth-box {
+    width: 100%;
+    padding: 24px;
+    border-radius: 14px;
+  }
+
+  .auth-box h2 {
+    font-size: 1.4rem;
+    text-align: center;
+  }
+
+  .auth-box input {
+    width: 100%;
+    font-size: 1rem;
+    padding: 12px;
+  }
+
+  .auth-box button {
+    width: 100%;
+    padding: 12px;
+    font-size: 1rem;
+  }
+
+  .toggle-text {
+    text-align: center;
+    font-size: 0.9rem;
+  }
+
+}
+
+/* SMALL PHONE */
+@media (max-width: 480px) {
+
+  .auth-box {
+    padding: 20px;
+  }
+
+  .auth-box h2 {
+    font-size: 1.2rem;
+  }
+
+}

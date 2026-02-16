@@ -352,3 +352,77 @@ body {
     transform: translateY(0);
   }
 }
+/*mobilee */
+/* =====================
+   RESPONSIVE
+===================== */
+
+/* Tablet */
+@media (max-width: 1024px) {
+  .shop-layout {
+    flex-direction: column;
+  }
+
+  .filter-panel {
+    width: 100%;
+    position: relative;
+    border-right: none;
+    border-bottom: 1px solid #eee;
+  }
+
+  .products {
+    padding: 20px;
+  }
+
+  .product-grid {
+    grid-template-columns: repeat(2, 1fr);
+  }
+}
+
+/* Mobile */
+@media (max-width: 768px) {
+  .navbar {
+    padding: 14px 18px;
+  }
+
+  .logo {
+    font-size: 1.2rem;
+  }
+
+  .nav-icons a {
+    margin-left: 12px;
+    font-size: 1.1rem;
+  }
+
+  .hero-strip {
+    padding: 30px 20px;
+  }
+
+  .hero-strip h1 {
+    font-size: 1.6rem;
+  }
+
+  .filter-bar {
+    flex-direction: column;
+    gap: 10px;
+  }
+
+  .product-grid {
+    grid-template-columns: 1fr;
+  }
+}
+
+/* Small mobile */
+@media (max-width: 480px) {
+  .hero-strip h1 {
+    font-size: 1.4rem;
+  }
+
+  .discover-box {
+    padding: 18px;
+  }
+
+  .section-title {
+    font-size: 1.3rem;
+  }
+}

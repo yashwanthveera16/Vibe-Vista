@@ -27,7 +27,7 @@ app.use("/api/orders", orderRoutes);
 app.use("/api/products", productRoutes);
 app.use("/api/cart", cartRoutes);
 
-/* ====================
+/* =====================
    SERVE FRONTEND
 ===================== */
 
@@ -39,7 +39,7 @@ app.get("/", (req, res) => {
   res.sendFile(path.join(__dirname, "../frontend/dashboard/dashboard.html"));
 });
 
-/* ===================
+/* ====================
    DB CONNECTION
 ===================== */
 mongoose
