@@ -47,7 +47,7 @@ mongoose
   .then(() => console.log("MongoDB connected"))
   .catch(err => console.error(err));
 
-/* =====================
+/* ====================
    SERVER
 ===================== */
 const PORT = process.env.PORT || 5000;
