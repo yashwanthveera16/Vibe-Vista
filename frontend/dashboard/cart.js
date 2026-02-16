@@ -9,11 +9,17 @@ function saveCart(cart) {
 const cartItemsEl = document.getElementById("cartItems");
 const itemCountEl = document.getElementById("itemCount");
 const totalPriceEl = document.getElementById("totalPrice");
-const checkoutBtn = document.getElementById("checkoutBtn");
 
+const modal = document.getElementById("orderModal");
+const checkoutBtn = document.getElementById("checkoutBtn");
+const closeModal = document.getElementById("closeModal");
+const orderForm = document.getElementById("orderForm");
+
+/* =====================
+   RENDER CART
+===================== */
 function renderCart() {
   const cart = getCart();
-
   cartItemsEl.innerHTML = "";
 
   if (!cart.length) {
@@ -79,28 +85,155 @@ function renderCart() {
   totalPriceEl.innerText = totalPrice;
 }
 
-/* -----------------------------
-   CHECKOUT BUTTON LOGIC
-------------------------------*/
+/* =====================
+   MODAL OPEN/CLOSE
+===================== */
+checkoutBtn.onclick = () => {
+  const cart = getCart();
+  if (!cart.length) {
+    alert("Cart is empty");
+    return;
+  }
+  modal.classList.add("show");
+};
+
+closeModal.onclick = () => modal.classList.remove("show");
+
+/* =====================
+   ORDER SUBMIT
+===================== */
+orderForm.onsubmit = async (e) => {
+  e.preventDefault();
+
+  const token = localStorage.getItem("token");
+  const cart = getCart();
+
+  if (!cart.length) {
+    alert("Cart empty");
+    return;
+  }
+
+  const shipping = {
+    name: document.getElementById("name").value,
+    phone: document.getElementById("phone").value,
+    address: document.getElementById("address").value,
+    city: document.getElementById("city").value,
+    postalCode: document.getElementById("postal").value
+  };
+
+  const totalAmount = cart.reduce(
+    (sum, item) => sum + item.price * item.qty,
+    0
+  );
+
+  try {
+    const res = await fetch("https://vibe-vista.onrender.com/api/orders", {
+      method: "POST",
+      headers: {
+        "Content-Type": "application/json",
+        Authorization: `Bearer ${token}`
+      },
+      body: JSON.stringify({
+        items: cart,
+        totalAmount,
+        shipping
+      })
+    });
+
+    const data = await res.json();
+
+    if (!res.ok) {
+      alert(data.message || "Order failed");
+      return;
+    }
+
+    localStorage.removeItem("cart");
+    modal.classList.remove("show");
+    alert("Order placed successfully 🎉");
+    renderCart();
+
+  } catch (err) {
+    console.error(err);
+    alert("Server error");
+  }
+};
+
+renderCart();
+/* ===== ORDER MODAL + SUBMIT ===== */
+
+const orderModal = document.getElementById("orderModal");
+const closeModal = document.getElementById("closeModal");
+const orderForm = document.getElementById("orderForm");
 
 if (checkoutBtn) {
-  checkoutBtn.addEventListener("click", async () => {
+  checkoutBtn.onclick = () => {
     const cart = getCart();
-
     if (!cart.length) {
       alert("Your cart is empty!");
       return;
     }
 
     const token = localStorage.getItem("token");
-
     if (!token) {
       alert("Please login first");
       window.location.href = "login.html";
       return;
     }
-    window.location.href = "checkout.html";
-  });
+
+    orderModal.style.display = "flex";
+  };
 }
 
-renderCart();
+if (closeModal) {
+  closeModal.onclick = () => {
+    orderModal.style.display = "none";
+  };
+}
+
+if (orderForm) {
+  orderForm.addEventListener("submit", async (e) => {
+    e.preventDefault();
+
+    const cart = getCart();
+    const token = localStorage.getItem("token");
+
+    const shipping = {
+      name: document.getElementById("name").value,
+      phone: document.getElementById("phone").value,
+      address: document.getElementById("address").value,
+      city: document.getElementById("city").value,
+      postalCode: document.getElementById("postal").value,
+    };
+
+    try {
+      const res = await fetch("https://vibe-vista.onrender.com/api/orders", {
+        method: "POST",
+        headers: {
+          "Content-Type": "application/json",
+          Authorization: "Bearer " + token,
+        },
+        body: JSON.stringify({
+          items: cart,
+          shipping,
+        }),
+      });
+
+      const data = await res.json();
+
+      if (!res.ok) {
+        alert(data.message || "Order failed");
+        return;
+      }
+
+      alert("Order placed successfully!");
+
+      localStorage.removeItem("cart");
+      orderModal.style.display = "none";
+      renderCart();
+
+    } catch (err) {
+      console.error(err);
+      alert("Server error");
+    }
+  });
+}
