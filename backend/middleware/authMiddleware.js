@@ -1,25 +1,65 @@
-const jwt = require("jsonwebtoken");
+const express = require("express");
+const Order = require("../models/Order");
+const authMiddleware = require("../middleware/authMiddleware");
 
-const authMiddleware = (req, res, next) => {
-  const authHeader = req.header("Authorization");
+const router = express.Router();
 
-  if (!authHeader) {
-    return res.status(401).json({ message: "No token provided" });
-  }
+/*
+=================================
+CREATE ORDER FROM FRONTEND CART
+=================================
+*/
 
-  const token = authHeader.startsWith("Bearer ")
-    ? authHeader.split(" ")[1]
-    : authHeader;
-
+router.post("/", authMiddleware, async (req, res) => {
   try {
-    const decoded = jwt.verify(token, process.env.JWT_SECRET);
+    const { items, shipping } = req.body;
 
-    req.user = decoded;   // IMPORTANT
+    // Validate cart items
+    if (!items || items.length === 0) {
+      return res.status(400).json({ message: "Cart is empty" });
+    }
 
-    next();
+    // Calculate total
+    const totalAmount = items.reduce(
+      (sum, item) => sum + item.price * item.qty,
+      0
+    );
+
+    // Create order
+    const order = new Order({
+      user: req.user.id, // IMPORTANT: from decoded token
+      items: items,
+      totalAmount,
+      shipping,
+    });
+
+    await order.save();
+
+    res.json({ message: "Order placed successfully" });
+
   } catch (err) {
-    return res.status(401).json({ message: "Invalid token" });
+    console.error(err);
+    res.status(500).json({ message: "Server error" });
   }
-};
+});
 
-module.exports = authMiddleware;
+/*
+=======================
+GET MY ORDERS
+=======================
+*/
+
+router.get("/my", authMiddleware, async (req, res) => {
+  try {
+    const orders = await Order.find({ user: req.user.id })
+      .sort({ createdAt: -1 });
+
+    res.json(orders);
+
+  } catch (err) {
+    console.error(err);
+    res.status(500).json({ message: "Server error" });
+  }
+});
+
+module.exports = router;
