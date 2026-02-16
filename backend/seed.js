@@ -41,23 +41,23 @@ mongoose.connect(process.env.MONGO_URI)
       { name: "Men T-Shirt Graphic", category: "men", type: "tshirt", price: 1299, sizes: ["S","M"], image: "images/men/tshirts/tshirt_7.jpg" },
 
       // ================= WOMEN BAGS =================
-      { name: "Women Hand Bag Classic", category: "women", type: "bag", price: 2599, sizes: ["Free"], image: "images/women/bags/bag_1.jpg" },
-      { name: "Women Bag Casual", category: "women", type: "bag", price: 2299, sizes: ["Free"], image: "images/women/bags/bag_2.jpg" },
-      { name: "Women Bag Premium", category: "women", type: "bag", price: 3199, sizes: ["Free"], image: "images/women/bags/bag_3.jpg" },
-      { name: "Women Bag Office", category: "women", type: "bag", price: 2899, sizes: ["Free"], image: "images/women/bags/bag_4.jpg" },
-      { name: "Women Bag Trendy", category: "women", type: "bag", price: 3499, sizes: ["Free"], image: "images/women/bags/bag_5.jpg" },
-      { name: "Women Bag Fashion", category: "women", type: "bag", price: 2799, sizes: ["Free"], image: "images/women/bags/bag_6.jpg" },
+      { name: "Women Hand Bag Classic", category: "women", type: "bag", price: 2599, sizes: ["Free"], image: "/dashboard/images/women/bags/bag_1.jpg" },
+      { name: "Women Bag Casual", category: "women", type: "bag", price: 2299, sizes: ["Free"], image: "/dashboard/images/women/bags/bag_2.jpg" },
+      { name: "Women Bag Premium", category: "women", type: "bag", price: 3199, sizes: ["Free"], image: "/dashboard/images/women/bags/bag_3.jpg" },
+      { name: "Women Bag Office", category: "women", type: "bag", price: 2899, sizes: ["Free"], image: "/dashboard/images/women/bags/bag_4.jpg" },
+      { name: "Women Bag Trendy", category: "women", type: "bag", price: 3499, sizes: ["Free"], image: "/dashboard/images/women/bags/bag_5.jpg" },
+      { name: "Women Bag Fashion", category: "women", type: "bag", price: 2799, sizes: ["Free"], image: "/dashboard/images/women/bags/bag_6.jpg" },
 
       // ================= WOMEN SANDALS =================
-      { name: "Women Sandals Comfort", category: "women", type: "sandals", price: 1799, sizes: ["S","M","L"], image: "images/women/sandals/sandles_1.jpg" },
-      { name: "Women Sandals Elegant", category: "women", type: "sandals", price: 1999, sizes: ["M","L"], image: "images/women/sandals/sandles_2.jpg" },
+      { name: "Women Sandals Comfort", category: "women", type: "sandals", price: 1799, sizes: ["S","M","L"], image: "/dashboard/images/women/sandals/sandles_1.jpg" },
+      { name: "Women Sandals Elegant", category: "women", type: "sandals", price: 1999, sizes: ["M","L"], image: "/dashboard/images/women/sandals/sandles_2.jpg" },
 
       // ================= WOMEN SHIRTS =================
-      { name: "Women Shirt Casual", category: "women", type: "shirt", price: 1599, sizes: ["S","M"], image: "images/women/shirts/shirts_1.jpg" },
-      { name: "Women Shirt Office", category: "women", type: "shirt", price: 1799, sizes: ["M","L"], image: "images/women/shirts/shirts_2.jpg" },
-      { name: "Women Shirt Trendy", category: "women", type: "shirt", price: 1899, sizes: ["S","M"], image: "images/women/shirts/shirts_3.jpg" },
-      { name: "Women Shirt Cotton", category: "women", type: "shirt", price: 1499, sizes: ["S","M","L"], image: "images/women/shirts/shirts_4.jpg" },
-      { name: "Women Shirt Elegant", category: "women", type: "shirt", price: 1999, sizes: ["M","L"], image: "images/women/shirts/shirts_5.jpg" },
+      { name: "Women Shirt Casual", category: "women", type: "shirt", price: 1599, sizes: ["S","M"], image: "/dashboard/images/women/shirts/shirts_1.jpg" },
+      { name: "Women Shirt Office", category: "women", type: "shirt", price: 1799, sizes: ["M","L"], image: "/dashboard/images/women/shirts/shirts_2.jpg" },
+      { name: "Women Shirt Trendy", category: "women", type: "shirt", price: 1899, sizes: ["S","M"], image: "/dashboard/images/women/shirts/shirts_3.jpg" },
+      { name: "Women Shirt Cotton", category: "women", type: "shirt", price: 1499, sizes: ["S","M","L"], image: "/dashboard/images/women/shirts/shirts_4.jpg" },
+      { name: "Women Shirt Elegant", category: "women", type: "shirt", price: 1999, sizes: ["M","L"], image: "/dashboard/images/women/shirts/shirts_5.jpg" },
       { name: "Women Shirt Daily Wear", category: "women", type: "shirt", price: 1399, sizes: ["S","M"], image: "images/women/shirts/shirts_6.jpg" }
 
     ]);
