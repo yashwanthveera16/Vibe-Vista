@@ -107,7 +107,16 @@ if (checkoutBtn) {
           "Content-Type": "application/json",
           Authorization: "Bearer " + token,
         },
-        body: JSON.stringify({ items: cart }),
+        body: JSON.stringify({
+          items: cart,
+          shipping: {
+            name: "Test User",
+            phone: "9999999999",
+            address: "Test address",
+            city: "Test city",
+            postalCode: "000000"
+          }
+        }),
       });
 
       const data = await res.json();
