@@ -99,43 +99,7 @@ if (checkoutBtn) {
       window.location.href = "login.html";
       return;
     }
-
-    try {
-      const res = await fetch("https://vibe-vista.onrender.com/api/orders", {
-        method: "POST",
-        headers: {
-          "Content-Type": "application/json",
-          Authorization: "Bearer " + token,
-        },
-        body: JSON.stringify({
-          items: cart,
-          shipping: {
-            name: "Test User",
-            phone: "9999999999",
-            address: "Test address",
-            city: "Test city",
-            postalCode: "000000"
-          }
-        }),
-      });
-
-      const data = await res.json();
-
-      if (!res.ok) {
-        alert(data.message || "Order failed");
-        return;
-      }
-
-      alert("Order placed successfully!");
-
-      localStorage.removeItem("cart");
-      renderCart();
-
-      window.location.href = "orders.html";
-    } catch (err) {
-      console.error(err);
-      alert("Something went wrong");
-    }
+    window.location.href = "checkout.html";
   });
 }
 
