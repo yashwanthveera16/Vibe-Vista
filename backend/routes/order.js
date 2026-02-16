@@ -24,11 +24,18 @@ router.post("/", authMiddleware, async (req, res) => {
       (sum, item) => sum + item.price * item.qty,
       0
     );
-
+    
     // Create order
     const order = new Order({
       user: req.user.id, // IMPORTANT: from decoded token
-      items: items,
+      items: items.map(i=> ({
+        product: i.id,
+        name: i.name,
+        price: i.price,
+        qty: i.qty,
+        size: i.size,
+        image: i.image
+      })),
       totalAmount,
       shipping,
     });
