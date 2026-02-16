@@ -159,12 +159,6 @@ orderForm.onsubmit = async (e) => {
 };
 
 renderCart();
-/* ===== ORDER MODAL + SUBMIT ===== */
-
-const orderModal = document.getElementById("orderModal");
-const closeModal = document.getElementById("closeModal");
-const orderForm = document.getElementById("orderForm");
-
 if (checkoutBtn) {
   checkoutBtn.onclick = () => {
     const cart = getCart();
@@ -180,60 +174,16 @@ if (checkoutBtn) {
       return;
     }
 
-    orderModal.style.display = "flex";
+    modal.style.display = "block";
   };
 }
 
-if (closeModal) {
-  closeModal.onclick = () => {
-    orderModal.style.display = "none";
-  };
-}
+closeModal.onclick = () => {
+  modal.style.display = "none";
+};
 
-if (orderForm) {
-  orderForm.addEventListener("submit", async (e) => {
-    e.preventDefault();
-
-    const cart = getCart();
-    const token = localStorage.getItem("token");
-
-    const shipping = {
-      name: document.getElementById("name").value,
-      phone: document.getElementById("phone").value,
-      address: document.getElementById("address").value,
-      city: document.getElementById("city").value,
-      postalCode: document.getElementById("postal").value,
-    };
-
-    try {
-      const res = await fetch("https://vibe-vista.onrender.com/api/orders", {
-        method: "POST",
-        headers: {
-          "Content-Type": "application/json",
-          Authorization: "Bearer " + token,
-        },
-        body: JSON.stringify({
-          items: cart,
-          shipping,
-        }),
-      });
-
-      const data = await res.json();
-
-      if (!res.ok) {
-        alert(data.message || "Order failed");
-        return;
-      }
-
-      alert("Order placed successfully!");
-
-      localStorage.removeItem("cart");
-      orderModal.style.display = "none";
-      renderCart();
-
-    } catch (err) {
-      console.error(err);
-      alert("Server error");
-    }
-  });
-}
+window.onclick = (e) => {
+  if (e.target === modal) {
+    modal.style.display = "none";
+  }
+};
