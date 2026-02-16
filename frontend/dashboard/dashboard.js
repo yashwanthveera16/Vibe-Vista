@@ -4,6 +4,8 @@
 const token = localStorage.getItem("token");
 if (!token) {
   window.location.href = "../loginpage/login.html";
+} else {
+  document.body.style.display = "block";
 }
 
 /* =====================
